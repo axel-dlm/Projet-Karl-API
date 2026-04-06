@@ -1,0 +1,22 @@
+{
+  "name": "api-jeux-video",
+  "version": "1.0.0",
+  "description": "API de referencement de jeux video",
+  "license": "ISC",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "migrate": "node migrate.js",
+    "dev": "node --inspect=0.0.0.0 --watch server.js",
+    "dev:windows": "nodemon -L server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "papaparse": "^5.5.3",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
