@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.use(require("./routes/games"));
 app.use(require("./routes/studios"));
+app.use(require("./routes/platforms"));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
