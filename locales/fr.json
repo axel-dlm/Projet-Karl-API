@@ -1,0 +1,15 @@
+{
+  "messages": {
+    "not_found": "Ressource introuvable"
+  },
+  "genre": {
+    "rpg": "Jeu de role",
+    "fps": "Tir a la premiere personne",
+    "platformer": "Jeu de plateforme",
+    "racing": "Course",
+    "strategy": "Strategie",
+    "action": "Action",
+    "adventure": "Aventure",
+    "puzzle": "Reflexion"
+  }
+}

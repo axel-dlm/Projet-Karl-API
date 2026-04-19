@@ -1,0 +1,15 @@
+{
+  "messages": {
+    "not_found": "Resource not found"
+  },
+  "genre": {
+    "rpg": "Role-playing game",
+    "fps": "First-person shooter",
+    "platformer": "Platformer",
+    "racing": "Racing",
+    "strategy": "Strategy",
+    "action": "Action",
+    "adventure": "Adventure",
+    "puzzle": "Puzzle"
+  }
+}

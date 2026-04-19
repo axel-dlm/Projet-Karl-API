@@ -3,10 +3,12 @@ const express = require("express");
 require("./models/associations");
 
 const formatMiddleware = require("./middlewares/format");
+const i18nMiddleware = require("./middlewares/i18n");
 
 const app = express();
 
 app.use(express.json());
+app.use(i18nMiddleware);
 app.use(formatMiddleware);
 
 app.use(require("./routes/games"));
