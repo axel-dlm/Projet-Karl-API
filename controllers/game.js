@@ -11,12 +11,30 @@ function buildItemLinks(game) {
 
 module.exports = {
   cget: async (req, res) => {
-    const games = await Game.findAll();
-    res.setHateoas({
-      self: "/games",
-      create: { method: "POST", href: "/games" },
+    let { page, itemsPerPage, ...filters } = req.query;
+    page = page ? parseInt(page, 10) : 1;
+    itemsPerPage = itemsPerPage ? parseInt(itemsPerPage, 10) : 10;
+
+    delete filters.format;
+
+    const { count, rows } = await Game.findAndCountAll({
+      where: filters,
+      offset: (page - 1) * itemsPerPage,
+      limit: itemsPerPage,
     });
-    res.render(games);
+
+    const lastPage = Math.max(1, Math.ceil(count / itemsPerPage));
+    const links = {
+      self: "/games?page=" + page,
+      first: "/games?page=1",
+      last: "/games?page=" + lastPage,
+      create: { method: "POST", href: "/games" },
+    };
+    if (page > 1) links.prev = "/games?page=" + (page - 1);
+    if (page < lastPage) links.next = "/games?page=" + (page + 1);
+
+    res.setHateoas(links);
+    res.render(rows);
   },
 
   get: async (req, res) => {
