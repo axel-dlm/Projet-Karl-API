@@ -1,4 +1,4 @@
-const Game = require("../models/game");
+const { Game, Studio, Platform } = require("../models/associations");
 
 function buildItemLinks(game) {
   return {
@@ -10,7 +10,16 @@ function buildItemLinks(game) {
 }
 
 module.exports = {
-  cget: async (req, res) => {
+  cgetV1: async (req, res) => {
+    const games = await Game.findAll();
+    res.setHateoas({
+      self: "/games",
+      create: { method: "POST", href: "/games" },
+    });
+    res.render(games);
+  },
+
+  cgetV2: async (req, res) => {
     let { page, itemsPerPage, ...filters } = req.query;
     page = page ? parseInt(page, 10) : 1;
     itemsPerPage = itemsPerPage ? parseInt(itemsPerPage, 10) : 10;
@@ -21,6 +30,16 @@ module.exports = {
       where: filters,
       offset: (page - 1) * itemsPerPage,
       limit: itemsPerPage,
+      include: [
+        { model: Studio, as: "studio" },
+        { model: Platform, as: "platforms", through: { attributes: [] } },
+      ],
+    });
+
+    const enriched = rows.map((game) => {
+      const obj = game.toJSON();
+      obj.genreLabel = req.t("genre." + obj.genre);
+      return obj;
     });
 
     const lastPage = Math.max(1, Math.ceil(count / itemsPerPage));
@@ -34,16 +53,23 @@ module.exports = {
     if (page < lastPage) links.next = "/games?page=" + (page + 1);
 
     res.setHateoas(links);
-    res.render(rows);
+    res.render(enriched);
   },
 
   get: async (req, res) => {
-    const game = await Game.findByPk(req.params.id);
+    const game = await Game.findByPk(req.params.id, {
+      include: [
+        { model: Studio, as: "studio" },
+        { model: Platform, as: "platforms", through: { attributes: [] } },
+      ],
+    });
     if (!game) {
       return res.status(404).json({ error: req.t("messages.not_found") });
     }
+    const obj = game.toJSON();
+    obj.genreLabel = req.t("genre." + obj.genre);
     res.setHateoas(buildItemLinks(game));
-    res.render(game);
+    res.render(obj);
   },
 
   post: async (req, res) => {
