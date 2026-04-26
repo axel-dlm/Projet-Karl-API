@@ -1,12 +1,13 @@
 {
   "name": "api-jeux-video",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "API de referencement de jeux video",
   "license": "ISC",
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
     "migrate": "node migrate.js",
+    "seed": "node seed.js",
     "dev": "node --inspect=0.0.0.0 --watch server.js",
     "dev:windows": "nodemon -L server.js"
   },
