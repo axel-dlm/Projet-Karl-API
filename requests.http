@@ -1,0 +1,120 @@
+@host = http://localhost:3000
+
+### Liste des jeux, version 2 par defaut, JSON
+GET {{host}}/games
+
+### Liste des jeux en version 1, sans relations ni traduction
+GET {{host}}/games
+X-API-Version: 1
+
+### Liste des jeux en francais
+GET {{host}}/games
+Accept-Language: fr
+
+### Liste des jeux avec pagination
+GET {{host}}/games?page=1&itemsPerPage=2
+
+### Liste des jeux en XML
+GET {{host}}/games
+Accept: application/xml
+
+### Liste des jeux en CSV
+GET {{host}}/games
+Accept: text/csv
+
+### Liste des jeux via query format
+GET {{host}}/games?format=xml
+
+### Detail d un jeu
+GET {{host}}/games/1
+
+### Detail d un jeu en francais
+GET {{host}}/games/1
+Accept-Language: fr
+
+### Creation d un jeu
+POST {{host}}/games
+Content-Type: application/json
+
+{
+  "title": "Hollow Knight",
+  "releaseYear": 2017,
+  "genre": "platformer",
+  "rating": 9.4,
+  "studioId": 1
+}
+
+### Modification partielle
+PATCH {{host}}/games/1
+Content-Type: application/json
+
+{
+  "rating": 9.8
+}
+
+### Remplacement complet
+PUT {{host}}/games/1
+Content-Type: application/json
+
+{
+  "title": "Zelda BOTW",
+  "releaseYear": 2017,
+  "genre": "adventure",
+  "rating": 9.7,
+  "studioId": 1
+}
+
+### Suppression
+DELETE {{host}}/games/99
+
+### Liste des studios
+GET {{host}}/studios
+
+### Detail d un studio
+GET {{host}}/studios/1
+
+### Creation d un studio
+POST {{host}}/studios
+Content-Type: application/json
+
+{
+  "name": "Larian Studios",
+  "country": "Belgium",
+  "foundedYear": 1996
+}
+
+### Modification d un studio
+PATCH {{host}}/studios/1
+Content-Type: application/json
+
+{
+  "country": "Japon"
+}
+
+### Suppression d un studio
+DELETE {{host}}/studios/4
+
+### Liste des plateformes
+GET {{host}}/platforms
+
+### Liste des plateformes en CSV
+GET {{host}}/platforms
+Accept: text/csv
+
+### Detail d une plateforme
+GET {{host}}/platforms/1
+
+### Creation d une plateforme
+POST {{host}}/platforms
+Content-Type: application/json
+
+{
+  "name": "Xbox Series X",
+  "manufacturer": "Microsoft"
+}
+
+### Suppression d une plateforme
+DELETE {{host}}/platforms/4
+
+### Jeu introuvable
+GET {{host}}/games/9999
