@@ -1,86 +1,60 @@
-## API Jeux Video
+Projet API jeux video
+Equipe
+- Axel
+- Jason
 
-API RESTful de referencement de jeux video, projet du cours API Avancee a Web School Factory.
+Stack
+- Node + Express
+- Postgres avec Sequelize
+- Docker
 
-## Equipe
-
-| Github username    | Nom reel |
-| ------------------ | -------- |
-| AXEL_GITHUB_USER   | Axel     |
-| JASON_GITHUB_USER  | Jason    |
-
-## Stack
-
-- Node.js et Express 5
-- PostgreSQL avec Sequelize
-- Docker Compose pour la base de donnees
-
-## Demarrage
-
-```
-docker compose up
-```
-
-L API ecoute sur http://localhost:3000.
-
-A la premiere installation, creer les tables et inserer les donnees de test.
-
-```
+Lancer le projet
+Au premier lancement faut faire les migrations et le seed pour avoir des données :
 docker compose exec backend npm run migrate
 docker compose exec backend npm run seed
-```
+L'api tourne sur le port 3000.
 
-## Modeles
+On a 3 modeles :
+- Studio
+- Platform
+- Game
+Un studio peut avoir plusieurs jeu. Un jeu peut etre sur plusieurs platforms .
 
-Trois modeles avec des relations entre eux.
+Les routes
 
-- Studio, un studio de developpement
-- Platform, une console ou un PC
-- Game, un jeu video
+CRUD complet sur les 3 ressources (games, studios, platforms).
 
-Studio a plusieurs Games (1 a N), un Game appartient a un Studio.
-Game et Platform sont en relation N a N via la table de jonction GamePlatforms.
+Exemple pour jeux :
 
-## Routes
+- GET /games
+- GET /games/:id
+- POST /games
+- PATCH /games/:id
+- PUT /games/:id
+- DELETE /games/:id
+Pareil pour les autres.
 
-CRUD complet sur les trois ressources.
+Versioning :
 
-```
-GET    /games        liste
-POST   /games        creation
-GET    /games/:id    detail
-PATCH  /games/:id    modification partielle
-PUT    /games/:id    remplacement
-DELETE /games/:id    suppression
-```
+On utilise le header "X-API-Version" pour choisir la version.
 
-Idem pour /studios et /platforms.
+v1 : liste basique
+v2 : liste avec les relations et la traduction du genre (version par defaut)
 
-## Internationalisation
+Traduction :
 
-Le header `Accept-Language` est lu pour selectionner la langue (fr ou en). Le header `Content-Language` est renvoye dans la reponse.
+Le header "Accept-Language" permet de choisir la langue, francais ou anglais. Sinon par defaut c'est englais.
 
-Les genres de jeux sont traduits automatiquement dans la version 2 de l API.
+Formats :
 
-## Versioning
+On peut recuperer les donnees en json, xml ou csv.
 
-Le numero de version se passe dans le header `X-API-Version`.
+Soit avec le header accept, soit avec format=xml directement dans l'url.
 
-- Version 1 : liste basique des jeux
-- Version 2 : liste enrichie avec studio, plateformes et genre traduit (version par defaut)
+HATEOAS
 
-## Formats
+Chaque reponse contient un champ "_links" avec les liens vers les actions possibles (self, list, create, update, delete) et les liens de pagination quand y en a.
 
-Trois formats sont supportes via le header `Accept` ou le query param `?format=`.
+Tester l'api
 
-- application/json (defaut)
-- application/xml
-- text/csv
-
-## HATEOAS
-
-Chaque reponse contient un champ `_links` avec les liens utiles : self, list, create, update, delete, prev, next, first, last.
-
-## Tests
-
-Le fichier `requests.http` contient des exemples de requetes pour chaque endpoint. Utilisable avec l extension REST Client de VS Code.
+Y'a un fichier "requests.http" avec des exemples de requetes, ca marche avec l'extension REST Client de VS Code.
