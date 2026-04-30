@@ -42,7 +42,7 @@ Versioning :
 On utilise le header "X-API-Version" pour choisir la version.
 
 v1 : liste basique
-v2 : liste avec les relations et la traduction du genre (version par defaut)
+v2 : liste avec les relations et la traduction du genre.
 
 Traduction :
 
