@@ -10,8 +10,11 @@ Stack
 
 Lancer le projet
 Au premier lancement faut faire les migrations et le seed pour avoir des données :
+
 docker compose exec backend npm run migrate
+
 docker compose exec backend npm run seed
+
 L'api tourne sur le port 3000.
 
 On a 3 modeles :
